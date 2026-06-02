@@ -25,15 +25,16 @@ jobs:
       - name: Push to Docker Hub
         run: docker push daniyal656/cicd-pipeline:latest
 
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
-            docker pull daniyal656/cicd-pipeline:latest
-            docker stop webapp || true
-            docker rm webapp || true
+- name: Deploy to EC2
+        env:
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          echo "$SSH_KEY" > key.pem
+          chmod 400 key.pem
+          ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@$HOST "
+            docker pull daniyal656/cicd-pipeline:latest &&
+            docker stop webapp || true &&
+            docker rm webapp || true &&
             docker run -d -p 80:5000 --name webapp daniyal656/cicd-pipeline:latest
+          "
