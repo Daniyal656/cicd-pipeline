@@ -31,8 +31,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
             docker pull daniyal656/cicd-pipeline:latest
             docker stop webapp || true
             docker rm webapp || true
-            docker run -d -p 80:80 --name webapp daniyal656/cicd-pipeline:latest
+            docker run -d -p 80:5000 --name webapp daniyal656/cicd-pipeline:latest
