@@ -7,7 +7,7 @@ def home():
     return '''
     <h1> Daniyal's CI/CD Pipeline</h1>
     <p>Automatically deployed using GitHub Actions + Docker + AWS EC2</p>
-    <p> Pipeline triggered and working!</p>
+    <p>CI/CD  Pipeline - DecodeLabs Project 3 Complete!</p>
     '''
 
 if __name__ == '__main__':
