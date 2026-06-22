@@ -1,16 +1,12 @@
-FROM python:3.9-slim
-  
+FROM python:3.9-alpine
 
- WORKDIR /app
- 
+WORKDIR /app
 
-  COPY  requirements.txt .
-  RUN pip install -r  requirements.txt
-  
-  COPY app.py  . 
-  
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-  EXPOSE 5000
-  
+COPY app.py .
 
-  CMD ["python", "app.py"]
+EXPOSE 5000
+
+ENTRYPOINT ["python", "app.py"]
